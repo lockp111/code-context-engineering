@@ -55,7 +55,7 @@ Agent **MUST** follow strictly defined protocols based on the user's intent. Do 
     *   **Review**: Briefly check content of generated files.
     *   **Prune**: If a file (e.g., `danger-zones.md`) contains only generic text, placeholders, or "no issues found", **DELETE IT**. It is better to have no file than a noise file.
 6.  **Finalize**:
-    *   Create root index: `{agent_workspace}/code-context.md` (using `references/index-template.md`).
+    *   Create root index: `{agent_workspace}/rules/code-context.md` (using `references/index-template.md`).
     *   If agent from cursor, `code-context.md` change to `code-context.mdc`
     *   **IMPORTANT**: Update the index to **REMOVE links** to any files you deleted in the Prune step.
     *   Delete `.analysis.md` (cleanup).
@@ -80,11 +80,6 @@ Agent **MUST** follow strictly defined protocols based on the user's intent. Do 
 | `impact-analysis.md`    | `impact-analysis-template.md`    | **Objective**: Relationships. Map imports/exports to see dependency flow.     |
 
 ## Reference
-
-### Supported Languages
-*   **Python**: AST Parsing (Classes, Functions, Decorators)
-*   **JS/TS**: Regex (Classes, Functions, Imports)
-*   **Go/Rust**: Regex (Structs, Functions)
 
 See [scripts/analyze_project.py](./scripts/analyze_project.py) for implementation details.
 
