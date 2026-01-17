@@ -21,16 +21,12 @@ python3 analyze_project.py /path/to/project --extensions py js
 
 ### Data Schema (.analysis.md)
 
-| Field                   | Type       | Description                                          |
-| :---------------------- | :--------- | :--------------------------------------------------- |
-| `name`                  | string     | Inferred project name                                |
-| `type`                  | string     | e.g., "Node.js", "Python"                            |
-| `languages`             | string[]   | List of detected languages                           |
-| `frameworks`            | string[]   | Detected frameworks (React, Django, etc.)            |
-| `total_files`           | number     | Total file count                                     |
-| `files`                 | object[]   | List of file details (path, lines, symbols, imports) |
-| `internal_imports`      | object     | Map of file -> list of local imports                 |
-| `circular_dependencies` | string[][] | List of circular dependency chains                   |
+| Section                 | Description                                      |
+| :---------------------- | :----------------------------------------------- |
+| `Header`                | Project Metadata (Name, Root, Type, Stats)       |
+| `Directory Structure`   | Tree view of folders (limited by depth)          |
+| `Code Symbols`          | List of classes, functions, and symbols per file |
+| `Internal Dependencies` | (Inferred) Internal import relationships         |
 
 ## Context Engineering Protocol
 
