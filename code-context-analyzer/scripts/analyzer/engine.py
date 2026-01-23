@@ -1,9 +1,12 @@
+from __future__ import annotations
+
 import json
 import re
 import sys
 from pathlib import Path
 from datetime import datetime
 from dataclasses import asdict
+from typing import Optional, List, Dict, Set
 
 from .core import ProjectAnalysis, FileAnalysis
 from .config import (
@@ -17,11 +20,16 @@ from .parsers.go import GoAnalyzer
 from .parsers.rust import RustAnalyzer
 from .parsers.cpp import CppAnalyzer
 from .parsers.php import PhpAnalyzer
+from .parsers.java import JavaAnalyzer
+from .parsers.swift import SwiftAnalyzer
+from .parsers.kotlin import KotlinAnalyzer
+from .parsers.dart import DartAnalyzer
+from .parsers.flutter import FlutterAnalyzer
 
 class ProjectAnalyzer:
     """项目分析器"""
     
-    def __init__(self, project_path: str, max_depth: int = 4, extensions: list[str] | None = None):
+    def __init__(self, project_path: str, max_depth: int = 4, extensions: Optional[List[str]] = None):
         self.project_path = Path(project_path).resolve()
         self.max_depth = max_depth
         self.extensions = set(f".{e.lstrip('.')}" for e in extensions) if extensions else None
@@ -34,6 +42,14 @@ class ProjectAnalyzer:
         self.rust_analyzer = RustAnalyzer()
         self.cpp_analyzer = CppAnalyzer()
         self.php_analyzer = PhpAnalyzer()
+        self.java_analyzer = JavaAnalyzer()
+        self.swift_analyzer = SwiftAnalyzer()
+        self.kotlin_analyzer = KotlinAnalyzer()
+        self.dart_analyzer = DartAnalyzer()
+        self.flutter_analyzer = FlutterAnalyzer()
+        
+        # Flutter 项目检测
+        self._is_flutter_project = self._detect_flutter_project()
         
         # 结果
         self.result = ProjectAnalysis(
@@ -75,7 +91,20 @@ class ProjectAnalyzer:
         print("✅ 分析完成!", file=sys.stderr)
         return self.result
     
-    def _scan_structure(self, path: Path | None = None, depth: int = 0):
+    def _detect_flutter_project(self) -> bool:
+        """检测是否为 Flutter 项目"""
+        pubspec = self.project_path / 'pubspec.yaml'
+        if pubspec.exists():
+            try:
+                content = pubspec.read_text(encoding='utf-8')
+                # 检查是否有 Flutter SDK 依赖
+                if 'flutter:' in content and 'sdk: flutter' in content:
+                    return True
+            except Exception:
+                pass
+        return False
+    
+    def _scan_structure(self, path: Optional[Path] = None, depth: int = 0):
         """递归扫描目录结构"""
         if path is None:
             path = self.project_path
@@ -279,6 +308,18 @@ class ProjectAnalyzer:
                     analysis = self.cpp_analyzer.analyze(file_path)
                 elif ext == '.php':
                     analysis = self.php_analyzer.analyze(file_path)
+                elif ext == '.java':
+                    analysis = self.java_analyzer.analyze(file_path)
+                elif ext == '.swift':
+                    analysis = self.swift_analyzer.analyze(file_path)
+                elif ext == '.kt':
+                    analysis = self.kotlin_analyzer.analyze(file_path)
+                elif ext == '.dart':
+                    # 如果是 Flutter 项目，使用 Flutter 解析器
+                    if self._is_flutter_project:
+                        analysis = self.flutter_analyzer.analyze(file_path)
+                    else:
+                        analysis = self.dart_analyzer.analyze(file_path)
 
                 if analysis and (analysis.symbols or analysis.imports):
                     # 确保 path 字段是相对路径
@@ -318,7 +359,7 @@ class ProjectAnalyzer:
             return
         
         # 创建模块名到文件路径的映射
-        module_to_file: dict[str, str] = {}
+        module_to_file: Dict[str, str] = {}
         for file_path in graph:
             # 从文件路径提取可能的模块名
             path = Path(file_path)
@@ -336,7 +377,7 @@ class ProjectAnalyzer:
                 module_to_file[path.stem] = file_path
         
         # 标准化图：文件路径 -> 文件路径列表
-        normalized_graph: dict[str, list[str]] = {}
+        normalized_graph: Dict[str, List[str]] = {}
         for file_path, imports in graph.items():
             deps = []
             for imp in imports:
@@ -348,11 +389,11 @@ class ProjectAnalyzer:
                 normalized_graph[file_path] = deps
         
         # DFS 检测循环
-        visited: set[str] = set()
-        rec_stack: set[str] = set()
-        cycles: list[list[str]] = []
+        visited: Set[str] = set()
+        rec_stack: Set[str] = set()
+        cycles: List[List[str]] = []
         
-        def dfs(node: str, path: list[str]) -> None:
+        def dfs(node: str, path: List[str]) -> None:
             visited.add(node)
             rec_stack.add(node)
             path.append(node)

@@ -26,6 +26,8 @@ CONFIG_FILES = {
     'go.mod': 'Go',
     'pom.xml': 'Java (Maven)',
     'build.gradle': 'Java (Gradle)',
+    'build.gradle.kts': 'Kotlin (Gradle)',
+    'settings.gradle.kts': 'Kotlin (Gradle)',
     'Gemfile': 'Ruby',
     'composer.json': 'PHP',
     'pubspec.yaml': 'Dart/Flutter',
@@ -47,13 +49,13 @@ FRAMEWORK_PATTERNS = {
     'laravel': ['laravel/framework'],
 }
 
-CODE_EXTENSIONS = {'.py', '.js', '.ts', '.jsx', '.tsx', '.java', '.go', '.rs', '.rb', '.php', '.swift', '.kt', '.c', '.cpp', '.h', '.cs', '.hpp', '.cxx', '.hxx', '.cc', '.hh'}
+CODE_EXTENSIONS = {'.py', '.js', '.ts', '.jsx', '.tsx', '.java', '.go', '.rs', '.rb', '.php', '.swift', '.kt', '.dart', '.c', '.cpp', '.h', '.cs', '.hpp', '.cxx', '.hxx', '.cc', '.hh'}
 
 EXTENSION_TO_LANG = {
     '.py': 'Python', '.js': 'JavaScript', '.ts': 'TypeScript',
     '.jsx': 'JavaScript (React)', '.tsx': 'TypeScript (React)',
     '.java': 'Java', '.go': 'Go', '.rs': 'Rust',
     '.rb': 'Ruby', '.php': 'PHP', '.swift': 'Swift',
-    '.kt': 'Kotlin', '.cs': 'C#', '.cpp': 'C++', '.c': 'C',
+    '.kt': 'Kotlin', '.dart': 'Dart', '.cs': 'C#', '.cpp': 'C++', '.c': 'C',
     '.hpp': 'C++', '.cxx': 'C++', '.hxx': 'C++', '.cc': 'C++', '.hh': 'C++',
 }

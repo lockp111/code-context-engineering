@@ -40,14 +40,19 @@ python3 scripts/analyze_project.py . --extensions py ts go
 
 The analyzer includes built-in advanced parsers for:
 
-| Language                  | Capabilities                                                                 |
-| :------------------------ | :--------------------------------------------------------------------------- |
-| **Python**                | Classes, Functions, Decorators (via `ast`)                                   |
-| **JavaScript/TypeScript** | Classes, Functions, Arrow Functions, Interfaces, Imports/Exports (via Regex) |
-| **Go**                    | Structs, Interfaces, Functions                                               |
-| **Rust**                  | Structs, Enums, Traits, Impls                                                |
-| **C++**                   | Classes, Structs, Template Functions                                         |
-| **PHP**                   | Classes, Interfaces, Traits                                                  |
+| Language                  | Capabilities                                                                  |
+| :------------------------ | :---------------------------------------------------------------------------- |
+| **Python**                | Classes, Functions, Decorators (via `ast`)                                    |
+| **JavaScript/TypeScript** | Classes, Functions, Arrow Functions, Interfaces, Imports/Exports (via Regex)  |
+| **Go**                    | Structs, Interfaces, Functions                                                |
+| **Rust**                  | Structs, Enums, Traits, Impls                                                 |
+| **C++**                   | Classes, Structs, Template Functions                                          |
+| **PHP**                   | Classes, Interfaces, Traits                                                   |
+| **Java**                  | Classes, Interfaces, Enums, Annotations, Records                              |
+| **Kotlin**                | Classes, Data Classes, Sealed Classes, Objects, Extension Functions          |
+| **Swift**                 | Classes, Structs, Enums, Protocols, Actors, Extensions                        |
+| **Dart**                  | Classes, Mixins, Extensions, Typedefs, sealed/base/final class (Dart 3.0+)    |
+| **Flutter**               | StatelessWidget, StatefulWidget, ChangeNotifier, Bloc, CustomPainter          |
 
 ## 📂 Project Structure
 

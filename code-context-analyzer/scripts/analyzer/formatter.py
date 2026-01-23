@@ -1,3 +1,6 @@
+from __future__ import annotations
+
+from typing import List
 from .core import ProjectAnalysis, FileAnalysis, SymbolInfo
 
 def to_markdown(analysis: ProjectAnalysis) -> str:
@@ -80,7 +83,7 @@ def to_markdown(analysis: ProjectAnalysis) -> str:
 
     return "\n".join(lines)
 
-def _format_symbol(sym: SymbolInfo, output_lines: list[str]):
+def _format_symbol(sym: SymbolInfo, output_lines: List[str]):
     """Helper to format a single symbol compactly."""
     # Prefix based on type
     prefix_map = {

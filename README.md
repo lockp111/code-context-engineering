@@ -2,14 +2,14 @@
 
 **中文** | [English](./README_EN.md)
 
-**Code Context Engineering** 是一个专为 AI Agent 设计的代码库分析与上下文生成工具集。它旨在帮助 Agent 快速理解大型项目结构、代码逻辑和依赖关系，从而生成高质量的上下文信息。
+**Code Context Engineering** 是一个专为 AI Agent 设计的代码库分析与上下文生成Skill。它旨在帮助 Agent 快速理解大型项目结构、代码逻辑和依赖关系，从而生成高质量的上下文信息。
 
 ## 🚀 核心功能
 
 本项目提供了一个强大的静态分析工具 `scripts/analyze_project.py`，支持以下特性：
 
 - **深度结构扫描**：递归分析项目目录结构，智能忽略干扰文件（如 `node_modules`, `.git`）。
-- **多语言 AST 分析**：深入解析代码语法树，提取类、函数、接口、装饰器等关键符号。
+- **多语言分析**：深入解析代码语法树，提取类、函数、接口、装饰器等关键符号。
 - **依赖关系图谱**：
     - 自动检测内部模块导入关系。
     - 识别项目级循环依赖（Circular Dependencies）。
@@ -40,14 +40,19 @@ python3 scripts/analyze_project.py . --extensions py ts go
 
 分析器内置了针对以下语言的高级解析器：
 
-| 语言                      | 解析能力                                         |
-| :------------------------ | :----------------------------------------------- |
-| **Python**                | 类, 函数, 装饰器 (基于 `ast`)                    |
-| **JavaScript/TypeScript** | 类, 函数, 箭头函数, 接口, 导入/导出 (基于 Regex) |
-| **Go**                    | 结构体, 接口, 函数                               |
-| **Rust**                  | 结构体, 枚举, Trait, Impl                        |
-| **C++**                   | 类, 结构体, 模板函数                             |
-| **PHP**                   | 类, 接口, Trait                                  |
+| 语言                      | 解析能力                                                              |
+| :------------------------ | :-------------------------------------------------------------------- |
+| **Python**                | 类, 函数, 装饰器 (基于 `ast`)                                         |
+| **JavaScript/TypeScript** | 类, 函数, 箭头函数, 接口, 导入/导出 (基于 Regex)                      |
+| **Go**                    | 结构体, 接口, 函数                                                    |
+| **Rust**                  | 结构体, 枚举, Trait, Impl                                             |
+| **C++**                   | 类, 结构体, 模板函数                                                  |
+| **PHP**                   | 类, 接口, Trait                                                       |
+| **Java**                  | 类, 接口, 枚举, 注解, Record                                          |
+| **Kotlin**                | 类, data class, sealed class, object, 扩展函数                        |
+| **Swift**                 | 类, 结构体, 枚举, Protocol, Actor, Extension                          |
+| **Dart**                  | 类, Mixin, Extension, Typedef, sealed/base/final class (Dart 3.0+)    |
+| **Flutter**               | StatelessWidget, StatefulWidget, ChangeNotifier, Bloc, CustomPainter |
 
 ## 📂 项目结构
 

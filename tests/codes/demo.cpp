@@ -3,6 +3,14 @@
 
 namespace MyNamespace {
 
+enum Color { Red, Green, Blue };
+
+enum class Status { Active, Inactive };
+
+typedef int IntAlias;
+
+using StringAlias = std::string;
+
 class MyClass {
 public:
     MyClass();

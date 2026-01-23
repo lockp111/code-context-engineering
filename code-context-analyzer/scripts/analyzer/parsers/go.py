@@ -12,6 +12,10 @@ class GoAnalyzer:
     STRUCT_PATTERN = r'^type\s+(\w+).*\s+struct\s*\{'
     # 宽松的正则：允许接口名后跟泛型
     INTERFACE_PATTERN = r'^type\s+(\w+).*\s+interface\s*\{'
+    # 类型别名：type Alias int 或 type Alias = int (Go 1.9+)
+    TYPE_ALIAS_PATTERN = r'^type\s+(\w+)\s+=?\s*(\w+|\[|func|chan|map)'
+    # 常量定义
+    CONST_PATTERN = r'^(?:const|var)\s+(\w+)\s+'
     
     def analyze(self, file_path: Path) -> FileAnalysis:
         """分析 Go 文件"""
@@ -43,6 +47,10 @@ class GoAnalyzer:
                 symbols.append(SymbolInfo(name=match.group(1), type='struct', line=i))
             elif match := re.search(self.INTERFACE_PATTERN, line):
                 symbols.append(SymbolInfo(name=match.group(1), type='interface', line=i))
+            elif match := re.search(self.TYPE_ALIAS_PATTERN, line):
+                symbols.append(SymbolInfo(name=match.group(1), type='type', line=i))
+            elif match := re.search(self.CONST_PATTERN, line):
+                symbols.append(SymbolInfo(name=match.group(1), type='const', line=i))
         
         return FileAnalysis(
             path=str(file_path),
