@@ -35,6 +35,7 @@ Agent **MUST** follow strictly defined protocols based on the user's intent. Do 
 
 **Trigger**: "Initialize context", "Analyze project", "First time setup"  
 **Goal**: Generate the **Full Context Suite**. DO NOT stop after just the overview.
+**context_dir**: `.code_analysis/`
 
 **Execution Sequence**:
 
@@ -56,20 +57,18 @@ Agent **MUST** follow strictly defined protocols based on the user's intent. Do 
 
 3. **Auto-Detection**: Check which config directories exist in project root:
    ```
-   .cursor/ → Cursor    |  .windsurf/ → Windsurf  |  .claude/ → ClaudeCode
+   .cursor/ → Cursor    |  .windsurf/ → Windsurf  |  .claude/ → ClaudeCode/OpenCode
    .agent/  → Antigravity|  .codex/    → Codex     |  (none)   → Ask user
    ```
    If multiple exist, prefer the one matching current runtime environment.
    
    **Tool-Specific Paths**:
-   | Agent       | `context_dir`                | `index_file`                     |
-   | :---------- | :--------------------------- | :------------------------------- |
-   | Cursor      | `.cursor/context/`           | `.cursor/rules/code-context.mdc` |
-   | Windsurf    | `.windsurf/context/`         | `.windsurf/rules/code-context.md`|
-   | ClaudeCode  | `.claude/context/`           | `CLAUDE.md` (project root)       |
-   | Antigravity | `.agent/context/`            | `.agent/rules/code-context.md`   |
-   | Codex       | `.codex/context/`            | `AGENTS.md` (project root)       |
-   | Other       | `{agent_workspace}/context/` | `{agent_workspace}/rules/code-context.md` |
+```markdown
+   | Agent                                            | `index_file` (Project Root) |
+   | :----------------------------------------------- | :-------------------------- |
+   | ClaudeCode                                       | `CLAUDE.md`                 |
+   | Others (OpenCode, Cursor, Windsurf, Codex, etc.) | `AGENTS.md`                 |
+```
 
 4. **Generate Core Suite** (Mandatory):
    > **Data Sources**: `.analysis.md` (machine data) + `references/*.md` (templates)  
@@ -100,13 +99,13 @@ Agent **MUST** follow strictly defined protocols based on the user's intent. Do 
 **Trigger**: "Update context", "I added a new feature", "Refactored code"  
 **Goal**: Update ONLY the affected documents to minimize noise.
 
-| Change Type                        | Update Target                                    |
-| :--------------------------------- | :----------------------------------------------- |
+| Change Type                          | Update Target                                   |
+| :----------------------------------- | :---------------------------------------------- |
 | Structure Change (New files/folders) | `project-overview.md` & `context-boundaries.md` |
-| New Dependencies                   | `project-overview.md` & `impact-analysis.md`     |
-| Process Change                     | `conventions.md` or `task-recipes.md`            |
-| Database Change (New migration/DDL)| Re-aggregate all SQL → `database-schema.md`      |
-| Flow Change (New workflow/state)   | `critical-flows.md` with new flow diagrams       |
+| New Dependencies                     | `project-overview.md` & `impact-analysis.md`    |
+| Process Change                       | `conventions.md` or `task-recipes.md`           |
+| Database Change (New migration/DDL)  | Re-aggregate all SQL → `database-schema.md`     |
+| Flow Change (New workflow/state)     | `critical-flows.md` with new flow diagrams      |
 
 ### 3. Template Reference
 
@@ -149,17 +148,17 @@ python3 scripts/analyze_project.py . -o .analysis.md --depth 3
 
 ## Troubleshooting
 
-| Issue | Solution |
-| :---- | :------- |
-| `❌ 分析失败` | Check Python version ≥ 3.8; verify project path exists |
-| Empty `.analysis.md` | Project may have no recognized code files; use `--extensions` to specify |
-| Context files too generic | Quality Gate should prune; if not, manually delete noise files |
-| Wrong agent detected | Manually specify `{context_dir}` and `{index_file}` paths |
+| Issue                     | Solution                                                                 |
+| :------------------------ | :----------------------------------------------------------------------- |
+| `❌ 分析失败`              | Check Python version ≥ 3.8; verify project path exists                   |
+| Empty `.analysis.md`      | Project may have no recognized code files; use `--extensions` to specify |
+| Context files too generic | Quality Gate should prune; if not, manually delete noise files           |
+| Wrong agent detected      | Manually specify `{context_dir}` and `{index_file}` paths                |
 
 ## Reference
 
 - Templates: `references/` directory relative to this skill file
 - Script: [scripts/analyze_project.py](./scripts/analyze_project.py)
 
-**Version**: 1.9.0  
-**Last Updated**: 2026-01-21
+**Version**: 1.10.0  
+**Last Updated**: 2026-02-05
