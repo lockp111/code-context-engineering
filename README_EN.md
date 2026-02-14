@@ -60,7 +60,6 @@ The analyzer includes built-in advanced parsers for:
     - `analyze_project.py`: Analyzer entry point.
     - `analyzer/`: Analysis engine logic and parsers.
 - **`code-context-analyzer/references/`**: Standard templates for context engineering (e.g., Agreements, Boundaries).
-- **`.agent/skills/`**: Extended skills library (Context Compression, Degradation, etc.).
 
 ## 📄 Protocols & Guides
 

@@ -60,7 +60,6 @@ python3 code-context-analyzer/scripts/analyze_project.py . --extensions py ts go
     - `analyze_project.py`: 分析器入口。
     - `analyzer/`: 分析引擎核心逻辑与解析器。
 - **`code-context-analyzer/references/`**: 上下文工程标准模板（如 Agreements, Boundaries 等）。
-- **`.agent/skills/`**: 扩展技能库（Context Compression, Degradation 等）。
 
 ## 📄 协议与指南
 
