@@ -8,10 +8,10 @@ alwaysApply: true
 
 | 任务类型 | 行为 |
 | -------- | ---- |
-| 新增功能 | 先查「关键路径」定位文件 → 遵循「代码规范」→ 检查「常见陷阱」 |
-| 修改现有代码 | 先查「风险区域」→ 确认状态机/枚举约束 → 评估影响范围 |
-| 修 Bug | 定位相关服务 → 检查状态转换是否合法 → 查看关联表约束 |
-| 数据库变更 | 🔴 只能追加 migration，禁止改已有文件 → 更新 `database-schema.md` |
+| 新增功能 | 查「关键路径」→ 遵循「代码规范」→ 查「常见陷阱」 |
+| 修改现有代码 | 查「风险区域」→ 确认状态机/枚举 → 评估影响 |
+| 修 Bug | 定位服务 → 校验状态转换 → 查关联表约束 |
+| 数据库变更 | 🔴 只追加 migration → 更新 `database-schema.md` |
 
 ## 项目概览
 
@@ -30,9 +30,7 @@ alwaysApply: true
 | 支付集成 | `services/payment.ts` | `charge()`, `refund()`, `handleCallback()` |
 | 数据访问 | `repositories/*.ts` | `findById()`, `create()`, `update()` |
 
-**操作路径**:
-- 新增 API: `routes/` → `services/` → `repositories/`
-- 添加表: `models/` + `migrations/`
+**路径**: 新增 API `routes/`→`services/`→`repositories/`；加表 `models/`+`migrations/`
 
 ## 关键函数签名
 
@@ -142,15 +140,15 @@ async function handleCallback(provider: 'alipay' | 'wechat', payload: any): Prom
 DATABASE_URL, REDIS_URL, JWT_SECRET, ALIPAY_APP_ID, WECHAT_APP_ID
 ```
 
-## 子文件加载指南
+## 子文件加载
 
-| 触发场景 | 加载文件 |
+| 场景 | 加载 |
 | -------- | -------- |
-| 首次接触项目 / 需要完整架构图 | `project-overview.md` |
-| 开发特定功能模块 / 不确定文件边界 | `context-boundaries.md` |
-| 需要详细编码规范 / Code Review | `conventions.md` |
-| 执行构建、测试、部署命令 | `task-recipes.md` |
-| 修改 🔴🟠 风险区域前 | `danger-zones.md` |
-| 重构 / 评估改动影响范围 | `impact-analysis.md` |
-| 数据库开发 / 写 SQL / 加表 | `database-schema.md` |
-| 理解复杂业务流程 / 状态机细节 | `critical-flows.md` |
+| 首次接触 / 完整架构 | `project-overview.md` |
+| 功能模块 / 文件边界 | `context-boundaries.md` |
+| 编码规范 / Code Review | `conventions.md` |
+| 构建、测试、部署 | `task-recipes.md` |
+| 修改 🔴🟠 风险区 | `danger-zones.md` |
+| 重构 / 影响评估 | `impact-analysis.md` |
+| 数据库 / SQL / 加表 | `database-schema.md` |
+| 复杂流程 / 状态机 | `critical-flows.md` |

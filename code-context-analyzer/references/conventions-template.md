@@ -1,6 +1,6 @@
 # 代码约定
 
-> 仅当需要详细规范或 Code Review 时加载此文件
+> 详细规范或 Code Review 时加载
 
 ## 命名规范
 
@@ -22,9 +22,7 @@
 | 3000-3999 | 业务错误 | 3001 库存不足, 3002 订单已取消 |
 | 4000-4999 | 第三方服务 | 4001 支付失败, 4002 短信发送失败 |
 
-**错误抛出**: `throw new BizError(code, message, data?)`
-
-**错误响应**: `{ code: 3001, message: "库存不足", data: { stock: 0 } }`
+**错误**: `throw new BizError(code, message, data?)` → `{ code, message, data? }`
 
 ## API 设计
 
@@ -37,7 +35,7 @@
 | 删除 | DELETE | `/resources/:id` |
 | 操作 | POST | `/resources/:id/action` |
 
-**命名**: 请求体 `XxxRequest/DTO`，响应体 `XxxResponse/VO`
+**命名**: 请求 `XxxRequest/DTO`，响应 `XxxResponse/VO`
 
 ## 日志规范
 
@@ -48,7 +46,7 @@
 | info | 关键节点 | 登录、支付、状态变更 |
 | debug | 调试用 | 生产环境关闭 |
 
-**禁止**: `console.log`、打印完整对象、日志含敏感信息
+**禁止**: `console.log`、完整对象、敏感信息入日志
 
 ## 代码风格
 
