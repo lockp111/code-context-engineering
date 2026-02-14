@@ -6,7 +6,7 @@
 
 ## 🚀 Key Features
 
-This project provides a powerful static analysis tool `scripts/analyze_project.py` with the following capabilities:
+This project provides a powerful static analysis tool `code-context-analyzer/scripts/analyze_project.py` with the following capabilities:
 
 - **Deep Structure Scan**: Recursively analyzes project directory structures, intelligently ignoring noise files (e.g., `node_modules`, `.git`).
 - **Multi-language AST Analysis**: Deep parsing of syntax trees to extract key symbols like classes, functions, interfaces, and decorators.
@@ -24,44 +24,44 @@ This project provides a powerful static analysis tool `scripts/analyze_project.p
 
 Basic Usage (Analyze current directory):
 ```bash
-python3 scripts/analyze_project.py . -o analysis.md
+python3 code-context-analyzer/scripts/analyze_project.py . -o analysis.md
 ```
 
 Advanced Usage:
 ```bash
 # Specify scan depth (default 10)
-python3 scripts/analyze_project.py . --depth 5
+python3 code-context-analyzer/scripts/analyze_project.py . --depth 5
 
 # Analyze specific languages only
-python3 scripts/analyze_project.py . --extensions py ts go
+python3 code-context-analyzer/scripts/analyze_project.py . --extensions py ts go
 ```
 
 ## 🧩 Supported Languages
 
 The analyzer includes built-in advanced parsers for:
 
-| Language                  | Capabilities                                                                  |
-| :------------------------ | :---------------------------------------------------------------------------- |
-| **Python**                | Classes, Functions, Decorators (via `ast`)                                    |
-| **JavaScript/TypeScript** | Classes, Functions, Arrow Functions, Interfaces, Imports/Exports (via Regex)  |
-| **Go**                    | Structs, Interfaces, Functions                                                |
-| **Rust**                  | Structs, Enums, Traits, Impls                                                 |
-| **C++**                   | Classes, Structs, Template Functions                                          |
-| **PHP**                   | Classes, Interfaces, Traits                                                   |
-| **Java**                  | Classes, Interfaces, Enums, Annotations, Records                              |
+| Language                  | Capabilities                                                                 |
+| :------------------------ | :--------------------------------------------------------------------------- |
+| **Python**                | Classes, Functions, Decorators (via `ast`)                                   |
+| **JavaScript/TypeScript** | Classes, Functions, Arrow Functions, Interfaces, Imports/Exports (via Regex) |
+| **Go**                    | Structs, Interfaces, Functions                                               |
+| **Rust**                  | Structs, Enums, Traits, Impls                                                |
+| **C++**                   | Classes, Structs, Template Functions                                         |
+| **PHP**                   | Classes, Interfaces, Traits                                                  |
+| **Java**                  | Classes, Interfaces, Enums, Annotations, Records                             |
 | **Kotlin**                | Classes, Data Classes, Sealed Classes, Objects, Extension Functions          |
-| **Swift**                 | Classes, Structs, Enums, Protocols, Actors, Extensions                        |
-| **Dart**                  | Classes, Mixins, Extensions, Typedefs, sealed/base/final class (Dart 3.0+)    |
-| **Flutter**               | StatelessWidget, StatefulWidget, ChangeNotifier, Bloc, CustomPainter          |
+| **Swift**                 | Classes, Structs, Enums, Protocols, Actors, Extensions                       |
+| **Dart**                  | Classes, Mixins, Extensions, Typedefs, sealed/base/final class (Dart 3.0+)   |
+| **Flutter**               | StatelessWidget, StatefulWidget, ChangeNotifier, Bloc, CustomPainter         |
 
 ## 📂 Project Structure
 
-- **`scripts/`**: Core toolset.
+- **`code-context-analyzer/scripts/`**: Core toolset.
     - `analyze_project.py`: Analyzer entry point.
     - `analyzer/`: Analysis engine logic and parsers.
-- **`references/`**: Standard templates for context engineering (e.g., Agreements, Boundaries).
+- **`code-context-analyzer/references/`**: Standard templates for context engineering (e.g., Agreements, Boundaries).
 - **`.agent/skills/`**: Extended skills library (Context Compression, Degradation, etc.).
 
 ## 📄 Protocols & Guides
 
-For detailed context generation protocols, please refer to [SKILL.md](./SKILL.md).
+For detailed context generation protocols, please refer to [SKILL.md](./code-context-analyzer/SKILL.md).
