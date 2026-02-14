@@ -1,31 +1,41 @@
 ---
 name: code-context-analyzer
-description: Generate structured project context files through static code analysis. Use when asked to "analyze project", "understand codebase", "初始化上下文", or setting up context for a new codebase.
+description: Use when asked to analyze project, understand codebase, initialize context, or setting up context for a new codebase
 ---
 
 # Code Context Analyzer
 
-Generate structured project metadata to help agents understand code and create context files.
+Generate structured project metadata through static code analysis (AST parsing, dependency graphs, symbol extraction) to help agents understand code and create context files.
+
+**Core Principle**: Treat context creation as a compilation process—compile raw code into structured knowledge artifacts—not just a summarization task.
 
 ## Requirements
 
-- Python 3.8+
-- No external dependencies (uses standard library only)
+- Python 3.8+ with AST module support
+- Compatible with static analysis, dependency parsing, and code symbol extraction
 
-## Quick Start
+## When NOT to Use
 
-```bash
-# Analyze project and generate metadata
-python3 scripts/analyze_project.py . -o .analysis.md
-```
+Do NOT use this skill when:
+- **Project already has context files** and user just wants to read them (use the existing `.code_analysis/` docs)
+- **Quick file lookup** is needed (use file search tools directly)
+- **Single file analysis** is requested (read the file directly, skip full project analysis)
+- **User mentions specific files/modules** without asking for project-wide understanding
+- **Time-critical fixes** where full analysis would delay resolution
 
-After analysis, the Agent will:
-1. Detect agent type (Cursor/Windsurf/ClaudeCode/etc.)
-2. Generate context files in `{context_dir}`
-3. Create index at `{index_file}`
-4. Delete `.analysis.md`
+## Red Flags - STOP and Re-Evaluate
 
-> For detailed steps, see [Initialization Protocol](#1-initialization-protocol).
+These signals indicate you're about to violate the protocol:
+
+| Red Flag                                           | What It Means                | Action Required                                        |
+| :------------------------------------------------- | :--------------------------- | :----------------------------------------------------- |
+| "Let me just generate a summary"                   | Skipping full analysis       | Run `analyze_project.py` first                         |
+| "I'll create context files directly"               | Bypassing the analysis phase | Generate `.analysis.md` before any context files       |
+| "This is a simple project, I don't need all steps" | Rationalizing shortcuts      | **All projects need the full protocol**                |
+| User says "quick analysis"                         | Pressure to skip steps       | Clarify scope; if full context needed, follow protocol |
+| "I'll skip the Quality Gate"                       | Accepting low-quality output | **Always** review and prune generic content            |
+| Creating files without templates                   | Inconsistent formatting      | Use `references/*.md` templates                        |
+| Leaving `.analysis.md` in root                     | Incomplete cleanup           | Delete intermediate files after use                    |
 
 ## Context Engineering Protocol
 
@@ -62,13 +72,12 @@ Agent **MUST** follow strictly defined protocols based on the user's intent. Do 
    ```
    If multiple exist, prefer the one matching current runtime environment.
    
-   **Tool-Specific Paths**:
-```markdown
-   | Agent                                            | `index_file` (Project Root) |
-   | :----------------------------------------------- | :-------------------------- |
-   | ClaudeCode                                       | `CLAUDE.md`                 |
-   | Others (OpenCode, Cursor, Windsurf, Codex, etc.) | `AGENTS.md`                 |
-```
+    **Tool-Specific Paths**:
+
+    | Agent                                            | `index_file` (Project Root) |
+    | :----------------------------------------------- | :-------------------------- |
+    | ClaudeCode                                       | `CLAUDE.md`                 |
+    | Others (OpenCode, Cursor, Windsurf, Codex, etc.) | `AGENTS.md`                 |
 
 4. **Generate Core Suite** (Mandatory):
    > **Data Sources**: `.analysis.md` (machine data) + `references/*.md` (templates)  
@@ -146,19 +155,20 @@ python3 scripts/analyze_project.py . -o .analysis.md --extensions py js
 python3 scripts/analyze_project.py . -o .analysis.md --depth 3
 ```
 
-## Troubleshooting
+## Common Mistakes
 
-| Issue                     | Solution                                                                 |
-| :------------------------ | :----------------------------------------------------------------------- |
-| `❌ 分析失败`              | Check Python version ≥ 3.8; verify project path exists                   |
-| Empty `.analysis.md`      | Project may have no recognized code files; use `--extensions` to specify |
-| Context files too generic | Quality Gate should prune; if not, manually delete noise files           |
-| Wrong agent detected      | Manually specify `{context_dir}` and `{index_file}` paths                |
+| Mistake                                        | Why It Happens                                              | How to Fix                                                                          |
+| :--------------------------------------------- | :---------------------------------------------------------- | :---------------------------------------------------------------------------------- |
+| Generating empty/low-quality context files     | Analysis script failed silently; Quality Gate missed        | Re-run `analyze_project.py`, check Python version, manually delete generic files    |
+| Missing `AGENTS.md` or `CLAUDE.md` index       | Skipped Finalize step; forgot to create index from template | Go back to Step 6: Create index file and remove broken links                        |
+| Context files mix English and Chinese randomly | Didn't check user's language preference                     | Default to Chinese, but match user's request language if specified                  |
+| Leftover `.analysis.md` in project root        | Skipped cleanup step in Finalize                            | Delete intermediate files immediately after use                                     |
+| Agent type detection wrong                     | Multiple agent config directories exist                     | Manually specify `{context_dir}` and `{index_file}` paths based on current runtime  |
+| Files reference deleted documents in index     | Quality Gate deleted file but index wasn't updated          | Always update index after pruning—remove links to deleted files                     |
+| Analysis missing certain file types            | Default extensions don't cover project                      | Use `--extensions` flag to specify additional file types (e.g., `rs`, `go`, `java`) |
+| Context outdated after refactor                | Forgot to run Maintenance Protocol                          | Identify change type from table, update only affected documents                     |
 
 ## Reference
 
 - Templates: `references/` directory relative to this skill file
 - Script: [scripts/analyze_project.py](./scripts/analyze_project.py)
-
-**Version**: 1.10.0  
-**Last Updated**: 2026-02-05
