@@ -19,6 +19,7 @@
 
 ### 环境要求
 - Python 3.8+
+- 安装依赖：`pip install -r code-context-analyzer/requirements.txt`（tree-sitter 解析器）
 
 ### 使用方法
 

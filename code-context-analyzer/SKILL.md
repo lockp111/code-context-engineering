@@ -11,8 +11,10 @@ Generate structured project metadata through static code analysis (AST parsing, 
 
 ## Requirements
 
-- Python 3.8+ with AST module support
-- Compatible with static analysis, dependency parsing, and code symbol extraction
+- Python 3.8+
+- 依赖安装：`pip install -r requirements.txt`（tree-sitter 解析器）
+- Python 使用标准库 `ast`，其他语言使用 tree-sitter 进行精确语法分析
+- Dart/Flutter 暂使用正则解析器作为降级方案
 
 ## When NOT to Use
 
